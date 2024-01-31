@@ -161,6 +161,7 @@ void long_press_key(void) {
             device_reset_show();
             device_reset_init();
 
+#if !(defined VADIMVOLK_LAYOUT)
             if (dev_info.sys_sw_state == SYS_SW_MAC) {
                 default_layer_set(1 << 0);
                 keymap_config.nkro = 0;
@@ -168,6 +169,10 @@ void long_press_key(void) {
                 default_layer_set(1 << 2);
                 keymap_config.nkro = 1;
             }
+#else
+    default_layer_set(1 << 0);
+    keymap_config.nkro = 0;
+#endif
         }
     } else {
         dev_reset_press_delay = 0;
@@ -291,6 +296,7 @@ void dial_sw_scan(void) {
         }
     }
 
+#if !(defined VADIMVOLK_LAYOUT)
     if (dial_scan & 0x02) {
         if (dev_info.sys_sw_state != SYS_SW_MAC) {
             f_sys_show = 1;
@@ -308,6 +314,13 @@ void dial_sw_scan(void) {
             break_all_key();
         }
     }
+#else
+    f_sys_show = 1;
+    default_layer_set(1 << 0);
+    dev_info.sys_sw_state = SYS_SW_MAC;
+    keymap_config.nkro = 0;
+    break_all_key();
+#endif
 
     if (f_dial_sw_init_ok == 0) {
         f_dial_sw_init_ok = 1;
@@ -361,6 +374,7 @@ void dial_sw_fast_scan(void) {
         }
     }
 
+#if !defined(VADIMVOLK_LAYOUT)
     // Win or Mac
     if (dial_scan_sys) {
         if (dev_info.sys_sw_state != SYS_SW_MAC) {
@@ -378,6 +392,12 @@ void dial_sw_fast_scan(void) {
             break_all_key();
         }
     }
+#else
+    default_layer_set(1 << 0);
+    dev_info.sys_sw_state = SYS_SW_MAC;
+    keymap_config.nkro = 0;
+    break_all_key();
+#endif
 }
 }
 
@@ -583,6 +603,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case MAC_PRTA:
             if (record->event.pressed) {
+#if !(defined VADIMVOLK_LAYOUT)
                 if (dev_info.sys_sw_state == SYS_SW_WIN) {
                     register_code(KC_LGUI);
                     register_code(KC_LSFT);
@@ -602,6 +623,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     unregister_code(KC_LSFT);
                     unregister_code(KC_LGUI);
                 }
+#else
+                register_code(KC_LGUI);
+                register_code(KC_LSFT);
+                register_code(KC_4);
+                wait_ms(50);
+                unregister_code(KC_4);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_LGUI);
+#endif
             }
             return false;
 

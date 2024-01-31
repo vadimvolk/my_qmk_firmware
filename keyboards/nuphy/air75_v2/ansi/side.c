@@ -237,6 +237,7 @@ void sys_sw_led_show(void) {
     }
 
     if (sys_show_flag) {
+#if !(defined VADIMVOLK_LAYOUT)
         if (dev_info.sys_sw_state == SYS_SW_MAC) {
             r_temp = 0x80;
             g_temp = 0x80;
@@ -246,6 +247,11 @@ void sys_sw_led_show(void) {
             g_temp = 0x00;
             b_temp = 0x80;
         }
+#else
+        r_temp = 0x80;
+        g_temp = 0x80;
+        b_temp = 0x80;
+#endif
         if ((timer_elapsed32(sys_show_timer) / 500) % 2 == 0) {
             set_right_rgb(r_temp, g_temp, b_temp);
         } else {
