@@ -682,7 +682,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         default:
+#if !(defined VADIMVOLK_LAYOUT)
             return true;
+#else
+            return process_record_vadimvolk(keycode, record);
+#endif
     }
 }
 

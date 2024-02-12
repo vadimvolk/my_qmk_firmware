@@ -170,3 +170,5 @@ typedef struct
     uint8_t retain1;
     uint8_t retain2;
 } user_config_t;
+
+bool process_record_vadimvolk(uint16_t keycode, keyrecord_t *record);
