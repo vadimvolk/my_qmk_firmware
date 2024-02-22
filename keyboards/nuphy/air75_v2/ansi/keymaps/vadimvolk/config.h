@@ -14,3 +14,4 @@
 #define TAPPING_TERM 2000
 
 #define KC_LAUNCHER KC_F20
+#define KC_HYPER KC_F21
