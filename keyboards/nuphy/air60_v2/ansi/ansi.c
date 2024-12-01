@@ -28,7 +28,7 @@ DEV_INFO_STRUCT dev_info =
 
 bool f_uart_ack         = 0;
 bool f_bat_show         = 0;
-bool f_bat_hold         = 0;
+bool f_bat_hold         = 1;
 bool f_chg_show         = 1;
 bool f_sys_show         = 0;
 bool f_sleep_show       = 0;
